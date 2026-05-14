@@ -1,0 +1,25 @@
+# Python environment
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Data and Models
+# (Don't track raw datasets or large binary model files)
+data/*.csv
+data/*.json
+models/*.joblib
+models/*.pkl
+models/*.bst
+
+# Environment variables / secrets
+.env
+
+# IDE specific
+.vscode/
+.idea/
+
+# OS specific
+.DS_Store
+Thumbs.db
