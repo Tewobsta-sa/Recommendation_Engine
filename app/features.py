@@ -2,16 +2,22 @@ from math import radians, cos, sin, asin, sqrt
 
 
 def curriculum_score(school, prefs):
+    pref_cur = prefs.get("curriculum")
+    if not pref_cur:
+        return 0.5
     return (
         1.0
-        if school["curriculum"] == prefs["curriculum"]
+        if school["curriculum"] == pref_cur
         else 0.0
     )
 
 
 def budget_score(tuition, prefs):
-    min_budget = prefs["min_budget"]
-    max_budget = prefs["max_budget"]
+    min_budget = prefs.get("min_budget") or 0
+    max_budget = prefs.get("max_budget") or 100000
+
+    if max_budget <= 0:
+        max_budget = 100000
 
     if min_budget <= tuition <= max_budget:
         return 1.0
@@ -46,14 +52,19 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 def distance_score(school, prefs):
+    lat = prefs.get("lat")
+    lng = prefs.get("lng")
+    if lat is None or lng is None or (lat == 0 and lng == 0):
+        return 0.5
+
     distance = haversine(
-        prefs["lat"],
-        prefs["lng"],
+        lat,
+        lng,
         school["latitude"],
         school["longitude"]
     )
 
-    max_distance = prefs["distance_km"]
+    max_distance = prefs.get("distance_km") or 25
 
     if distance <= max_distance:
         return 1.0
