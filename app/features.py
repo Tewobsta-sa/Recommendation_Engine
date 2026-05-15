@@ -2,22 +2,25 @@ from math import radians, cos, sin, asin, sqrt
 
 
 def curriculum_score(school, prefs):
-    pref_cur = prefs.get("curriculum")
-    if not pref_cur:
+    pref_curriculum = prefs.get("curriculum")
+    if not pref_curriculum:
         return 0.5
     return (
         1.0
-        if school["curriculum"] == pref_cur
+        if school["curriculum"] == pref_curriculum
         else 0.0
     )
 
 
 def budget_score(tuition, prefs):
-    min_budget = prefs.get("min_budget") or 0
-    max_budget = prefs.get("max_budget") or 100000
+    min_budget = prefs.get("min_budget")
+    max_budget = prefs.get("max_budget")
+
+    if min_budget is None or max_budget is None:
+        return 0.5
 
     if max_budget <= 0:
-        max_budget = 100000
+        return 0.5
 
     if min_budget <= tuition <= max_budget:
         return 1.0
@@ -54,7 +57,8 @@ def haversine(lat1, lon1, lat2, lon2):
 def distance_score(school, prefs):
     lat = prefs.get("lat")
     lng = prefs.get("lng")
-    if lat is None or lng is None or (lat == 0 and lng == 0):
+
+    if lat is None or lng is None:
         return 0.5
 
     distance = haversine(
@@ -73,15 +77,19 @@ def distance_score(school, prefs):
 
 
 def facilities_score(school):
-    facilities = school["facilities"].split(",")
+    facilities = school.get("facilities") or ""
+    if not facilities.strip():
+        return 0.0
 
-    return min(len(facilities), 5) / 5.0
+    items = facilities.split(",")
+
+    return min(len(items), 5) / 5.0
 
 
 def verification_score(school):
     return (
         1.0
-        if school["verification_status"] == "verified"
+        if school.get("verification_status") == "verified"
         else 0.4
     )
 
