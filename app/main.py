@@ -16,7 +16,7 @@ def health():
 
 @app.post("/recommend")
 def recommend(payload: RecommendationRequest):
-    ranked = rank_schools(payload.dict())
+    ranked = rank_schools(payload.model_dump())
 
     return {
         "ranked": ranked
@@ -25,7 +25,7 @@ def recommend(payload: RecommendationRequest):
 
 @app.post("/feedback")
 def feedback(payload: FeedbackRequest):
-    save_feedback(payload.dict())
+    save_feedback(payload.model_dump())
 
     return {
         "message": "feedback stored"
