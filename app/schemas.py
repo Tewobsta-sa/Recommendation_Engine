@@ -22,6 +22,9 @@ class School(BaseModel):
     latitude: float  
     longitude: float  
     school_level: Optional[str] = None 
+
+    class Config:  
+        extra = "allow"
   
   
 class RecommendationRequest(BaseModel):  

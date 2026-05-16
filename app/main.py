@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from app.model import rank_schools
 from app.schemas import (
     RecommendationRequest,
@@ -16,11 +17,10 @@ def health():
 
 @app.post("/recommend")
 def recommend(payload: RecommendationRequest):
-    ranked = rank_schools(payload.model_dump())
-
-    return {
-        "ranked": ranked
-    }
+    raw_payload = payload.model_dump()
+    
+    ranked = rank_schools(raw_payload)
+    return JSONResponse(content={"ranked": ranked})
 
 
 @app.post("/feedback")
