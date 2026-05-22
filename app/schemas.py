@@ -33,8 +33,12 @@ class RecommendationRequest(BaseModel):
     schools: List[School]  
   
   
-class FeedbackRequest(BaseModel):  
-    parent_id: int  
-    school_id: int  
-    recommendation_id: int  
-    result: Literal["opened", "ignored"]
+class FeedbackRequest(BaseModel):
+
+    recommendation_id: Optional[int] = None
+
+    parent_id: int
+
+    school_id: int
+
+    result: str
