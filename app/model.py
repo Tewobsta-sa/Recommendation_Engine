@@ -1,15 +1,15 @@
 from app.features import build_feature_vector
 
 WEIGHTS = [
-    0.25,
-    0.25,
-    0.20,
-    0.15,
-    0.10,
-    0.05,
-    0.05,   
-    0.05,   
-    0.05,
+    0.22,  # curriculum
+    0.22,  # budget
+    0.18,  # distance
+    0.14,  # rating
+    0.08,  # facilities
+    0.05,  # verification
+    0.04,  # school type
+    0.04,  # passing rate
+    0.03,  # national exam
 ]
 
 
@@ -43,28 +43,29 @@ def rank_schools(payload):
         ranked.append({  
     "school_id": school_data["id"],  
     "score": round(score, 2),  
-    "features": {  
-        "curriculum_score": features[0],  
-        "budget_score": features[1],  
-        "distance_score": features[2],  
-        "rating_score": features[3],  
-        "facilities_score": features[4],  
-        "verification_score": features[5],  
-        "school_type_score": features[6],       
-        "passing_rate_score": features[7],    
-        "national_exam_score": features[8],     
-    },  
-    "breakdown": {  
-        "curriculum": features[0],  
-        "budget": features[1],  
-        "distance": features[2],  
-        "rating": features[3],  
-        "facilities": features[4],  
-        "verification": features[5],  
-        "school_type": features[6],           
-        "passing_rate": features[7],            
-        "national_exam_score": features[8],    
-    }  
+    "features": {
+    "scores": {
+        "curriculum": features[0],
+        "budget": features[1],
+        "distance": features[2],
+        "rating": features[3],
+        "facilities": features[4],
+        "verification": features[5],
+        "school_type": features[6],
+        "passing_rate": features[7],
+        "national_exam": features[8],
+    },
+
+    "final_score": round(score, 2),
+
+    "raw_data": {
+        "tuition_fee": school_data["tuition_fee"],
+        "rating": school_data["rating"],
+        "curriculum": school_data["curriculum"],
+        "school_type": school_data.get("school_type"),
+        "passing_rate": school_data.get("passing_rate"),
+    }
+}
 })
 
     ranked.sort(

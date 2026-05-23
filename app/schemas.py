@@ -23,9 +23,9 @@ class School(BaseModel):
     latitude: float  
     longitude: float  
     school_level: Optional[str] = None 
-    school_type: Literal["private", "government", "church"]  
-    passing_rate: float   
-    national_exam_score: float 
+    school_type: Optional[Literal["private", "government", "church"]] = None 
+    passing_rate: Optional[float] = None
+    national_exam_score: Optional[float] = None
 
     class Config:  
         extra = "allow"
