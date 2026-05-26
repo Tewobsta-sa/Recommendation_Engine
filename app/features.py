@@ -93,6 +93,20 @@ def verification_score(school):
         else 0.4
     )
 
+def school_type_score(school, prefs):  
+    pref_type = prefs.get("school_type")  
+    if not pref_type:  
+        return 0.5  # Neutral if no preference  
+    return 1.0 if school.get("school_type") == pref_type else 0.0  
+  
+def passing_rate_score(school):  
+    # Normalize 0-100 to 0.0-1.0  
+    return school.get("passing_rate", 0) / 100.0  
+  
+def national_exam_score(school):  
+    # Normalize 0-100 to 0.0-1.0  
+    return school.get("national_exam_score", 0) / 100.0
+
 
 def build_feature_vector(school, prefs):
     return [
@@ -102,4 +116,8 @@ def build_feature_vector(school, prefs):
         school["rating"] / 5.0,
         facilities_score(school),
         verification_score(school),
+        school_type_score(school, prefs),       
+        passing_rate_score(school),            
+        national_exam_score(school),
     ]
+

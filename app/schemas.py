@@ -8,7 +8,8 @@ class Preferences(BaseModel):
     max_budget: Optional[float] = None  
     distance_km: float = 25.0  
     lat: Optional[float] = None  
-    lng: Optional[float] = None  
+    lng: Optional[float] = None 
+    school_type: Optional[Literal["private", "government", "church"]] = None 
   
   
 class School(BaseModel):  
@@ -22,6 +23,9 @@ class School(BaseModel):
     latitude: float  
     longitude: float  
     school_level: Optional[str] = None 
+    school_type: Optional[Literal["private", "government", "church"]] = None 
+    passing_rate: Optional[float] = None
+    national_exam_score: Optional[float] = None
 
     class Config:  
         extra = "allow"
