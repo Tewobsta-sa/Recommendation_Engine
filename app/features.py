@@ -7,7 +7,7 @@ def curriculum_score(school, prefs):
         return 0.5
     return (
         1.0
-        if school["curriculum"] == pref_curriculum
+        if school["curriculum"].upper() == pref_curriculum.upper()
         else 0.0
     )
 
@@ -93,19 +93,80 @@ def verification_score(school):
         else 0.4
     )
 
+
 def school_type_score(school, prefs):  
     pref_type = prefs.get("school_type")  
     if not pref_type:  
         return 0.5  # Neutral if no preference  
     return 1.0 if school.get("school_type") == pref_type else 0.0  
-  
+
+
+def school_level_score(school, prefs):
+    pref_level = prefs.get("school_level")
+    if not pref_level:
+        return 0.5
+    return 1.0 if school.get("school_level") == pref_level else 0.0
+
+
 def passing_rate_score(school):  
     # Normalize 0-100 to 0.0-1.0  
     return school.get("passing_rate", 0) / 100.0  
-  
+
+
 def national_exam_score(school):  
     # Normalize 0-100 to 0.0-1.0  
     return school.get("national_exam_score", 0) / 100.0
+
+
+# New scoring functions for additional metrics
+def total_students_score(school):
+    # Normalize student count: assume reasonable range 100-5000
+    total = school.get("total_students", 0)
+    if total == 0:
+        return 0.5
+    # Logarithmic scaling to handle wide range
+    import math
+    normalized = math.log(max(total, 1)) / math.log(5000)
+    return min(normalized, 1.0)
+
+
+def gender_balance_score(school):
+    # gender_balance_index is already 0-1 (1 = perfect balance)
+    return school.get("gender_balance_index", 0.5)
+
+
+def achievement_score_normalized(school):
+    # achievement_score is already normalized 0-1
+    return school.get("achievement_score", 0.0)
+
+
+def achievement_count_score(school):
+    # Normalize count: assume reasonable range 0-50
+    count = school.get("achievement_count", 0)
+    return min(count / 50.0, 1.0)
+
+
+def staff_quality_score_normalized(school):
+    # staff_quality_score is already normalized 0-1
+    return school.get("staff_quality_score", 0.0)
+
+
+def follower_count_score(school):
+    # Normalize follower count: assume reasonable range 0-1000
+    followers = school.get("follower_count", 0)
+    return min(followers / 1000.0, 1.0)
+
+
+def review_count_score(school):
+    # Normalize review count: assume reasonable range 0-500
+    reviews = school.get("review_count", 0)
+    return min(reviews / 500.0, 1.0)
+
+
+def total_achievement_score_normalized(school):
+    # total_achievement_score is already normalized 0-1
+    return school.get("total_achievement_score", 0.0)
+
 
 
 def build_feature_vector(school, prefs):
@@ -116,8 +177,17 @@ def build_feature_vector(school, prefs):
         school["rating"] / 5.0,
         facilities_score(school),
         verification_score(school),
-        school_type_score(school, prefs),       
-        passing_rate_score(school),            
+        school_type_score(school, prefs),
+        school_level_score(school, prefs),
+        passing_rate_score(school),
         national_exam_score(school),
+        # New features
+        total_students_score(school),
+        gender_balance_score(school),
+        achievement_score_normalized(school),
+        achievement_count_score(school),
+        staff_quality_score_normalized(school),
+        follower_count_score(school),
+        review_count_score(school),
+        total_achievement_score_normalized(school),
     ]
-

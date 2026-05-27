@@ -23,8 +23,9 @@ MODEL_PATH = (
 df = pd.read_csv(DATASET_PATH)
 
 # STEP 2
-# Features
-X = df.drop(columns=["outcome"])
+# Features - dynamically detect all columns except 'outcome'
+FEATURE_COLUMNS = [col for col in df.columns if col != "outcome"]
+X = df[FEATURE_COLUMNS]
 
 # STEP 3
 # Labels
@@ -61,6 +62,7 @@ accuracy = accuracy_score(
 )
 
 print(f"Accuracy: {accuracy}")
+print(f"Feature columns used: {FEATURE_COLUMNS}")
 
 # STEP 7
 # Save model
