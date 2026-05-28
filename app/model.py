@@ -2,19 +2,19 @@ from app import features
 from app.features import build_feature_vector
 
 WEIGHTS = [
-    0.15,  # curriculum
+    0.09,  # curriculum
     0.15,  # budget
-    0.12,  # distance
+    0.11,  # distance
     0.10,  # rating
-    0.06,  # facilities
+    0.05,  # facilities
     0.04,  # verification
-    0.03,  # school type
-    0.03,  # school level
-    0.03,  # passing rate
-    0.02,  # national exam
+    0.05,  # school type
+    0.07,  # school level
+    0.05,  # passing rate
+    0.05,  # national exam
     # New features
-    0.08,  # total students
-    0.06,  # gender balance
+    0.01,  # total students
+    0.01,  # gender balance
     0.05,  # achievement score
     0.03,  # achievement count
     0.05,  # staff quality

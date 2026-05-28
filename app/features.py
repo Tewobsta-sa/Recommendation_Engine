@@ -137,7 +137,7 @@ def gender_balance_score(school):
 
 def achievement_score_normalized(school):
     # achievement_score is already normalized 0-1
-    return school.get("achievement_score", 0.0)
+    return school.get("achievement_score", 0.0) /100.0
 
 
 def achievement_count_score(school):
