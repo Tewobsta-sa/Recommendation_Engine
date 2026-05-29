@@ -101,13 +101,6 @@ def school_type_score(school, prefs):
     return 1.0 if school.get("school_type") == pref_type else 0.0  
 
 
-def school_level_score(school, prefs):
-    pref_level = prefs.get("school_level")
-    if not pref_level:
-        return 0.5
-    return 1.0 if school.get("school_level") == pref_level else 0.0
-
-
 def passing_rate_score(school):  
     # Normalize 0-100 to 0.0-1.0  
     return school.get("passing_rate", 0) / 100.0  
@@ -135,7 +128,7 @@ def gender_balance_score(school):
     return school.get("gender_balance_index", 0.5)
 
 
-def achievement_score_normalized(school):
+def achievement_score(school):
     # achievement_score is already normalized 0-1
     return school.get("achievement_score", 0.0) /100.0
 
@@ -146,7 +139,7 @@ def achievement_count_score(school):
     return min(count / 50.0, 1.0)
 
 
-def staff_quality_score_normalized(school):
+def staff_quality_score(school):
     # staff_quality_score is already normalized 0-1
     return school.get("staff_quality_score", 0.0)
 
@@ -163,7 +156,7 @@ def review_count_score(school):
     return min(reviews / 500.0, 1.0)
 
 
-def total_achievement_score_normalized(school):
+def total_achievement_score(school):
     # total_achievement_score is already normalized 0-1
     return school.get("total_achievement_score", 0.0)
 
@@ -174,20 +167,20 @@ def build_feature_vector(school, prefs):
         curriculum_score(school, prefs),
         budget_score(school["tuition_fee"], prefs),
         distance_score(school, prefs),
-        school["rating"] / 5.0,
+        school["rating"] / 5.0,  # This matches API's rating_score
         facilities_score(school),
         verification_score(school),
         school_type_score(school, prefs),
-        school_level_score(school, prefs),
+        # school_level_score removed - not provided by API
         passing_rate_score(school),
         national_exam_score(school),
         # New features
         total_students_score(school),
         gender_balance_score(school),
-        achievement_score_normalized(school),
+        achievement_score(school),  # Renamed from achievement_score_normalized
         achievement_count_score(school),
-        staff_quality_score_normalized(school),
+        staff_quality_score(school),  # Renamed from staff_quality_score_normalized
         follower_count_score(school),
         review_count_score(school),
-        total_achievement_score_normalized(school),
+        total_achievement_score(school),  # Renamed from total_achievement_score_normalized
     ]

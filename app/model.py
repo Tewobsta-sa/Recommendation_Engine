@@ -13,7 +13,7 @@ WEIGHTS = [
     0.05,  # facilities  
     0.04,  # verification  
     0.05,  # school type  
-    0.07,  # school level  
+    # school level removed - not provided by API  
     0.05,  # passing rate  
     0.05,  # national exam  
     # New features  
@@ -99,18 +99,18 @@ def rank_schools(payload):
                     "facilities": features[4],  
                     "verification": features[5],  
                     "school_type": features[6],  
-                    "school_level": features[7],  
-                    "passing_rate": features[8],  
-                    "national_exam": features[9],  
+                    # school_level removed - not provided by API
+                    "passing_rate": features[7],  
+                    "national_exam": features[8],  
                     # New features  
-                    "total_students": features[10],  
-                    "gender_balance": features[11],  
-                    "achievement_score": features[12],  
-                    "achievement_count": features[13],  
-                    "staff_quality": features[14],  
-                    "follower_count": features[15],  
-                    "review_count": features[16],  
-                    "total_achievement_score": features[17],  
+                    "total_students": features[9],  
+                    "gender_balance": features[10],  
+                    "achievement_score": features[11],  
+                    "achievement_count": features[12],  
+                    "staff_quality": features[13],  
+                    "follower_count": features[14],  
+                    "review_count": features[15],  
+                    "total_achievement_score": features[16],  
                 },  
                 "final_score": round(score, 2),  
                 "raw_data": {  

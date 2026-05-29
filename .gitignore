@@ -7,7 +7,7 @@ __pycache__/
 
 # Data and Models
 # (Don't track raw datasets or large binary model files)
-data/*.csv
+*.csv
 data/*.json
 models/*.joblib
 models/*.pkl
