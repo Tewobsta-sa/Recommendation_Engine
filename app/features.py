@@ -167,7 +167,7 @@ def build_feature_vector(school, prefs):
         curriculum_score(school, prefs),
         budget_score(school["tuition_fee"], prefs),
         distance_score(school, prefs),
-        school["rating"] / 5.0,  # This matches API's rating_score
+        school.get("rating_score", 0.5) ,  
         facilities_score(school),
         verification_score(school),
         school_type_score(school, prefs),
