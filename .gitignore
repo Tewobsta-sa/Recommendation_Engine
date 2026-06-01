@@ -1,9 +1,14 @@
 # Python environment
 .venv/
+.venv-1/
 venv/
 env/
-__pycache__/
-*.py[cod]
+# Python  
+__pycache__/  
+*.py[cod]  
+*$py.class  
+*.so  
+.Python  
 
 # Data and Models
 # (Don't track raw datasets or large binary model files)
